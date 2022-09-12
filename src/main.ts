@@ -99,7 +99,6 @@ addMessBtn.addEventListener('click', e => {
     const timestamp = Date.now();
     const date = new Date(timestamp);
     const pad = (n) => {   
-    // function pad(n) {
         return n<10 ? '0'+n : n;
     }
     const messTimestamp = pad(date.getDate())+
@@ -107,8 +106,6 @@ addMessBtn.addEventListener('click', e => {
         "-"+date.getFullYear()+
         ", "+pad(date.getHours())+
         ":"+pad(date.getMinutes());
-
-        console.log(messTimestamp);
 
     if (user.innerText == '') {
         alert('Enter username!');
@@ -136,3 +133,5 @@ addMessBtn.addEventListener('click', e => {
     }
 
 })
+
+export { fetchAllData }

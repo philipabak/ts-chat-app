@@ -1,5 +1,6 @@
 import { db } from "./firebaseApp";
-import {  ref, remove, update } from "firebase/database";
+import { ref, remove, update } from "firebase/database";
+import { fetchAllData } from "../main";
 
 // Message class with consturctor and methods
 class Message {
@@ -43,9 +44,8 @@ class Message {
             messDiv.append(delButton);
             // Event listener for delete-button (for own message)
             delButton.addEventListener('click', () => {
-                console.log(user.innerText);
-                    const messRef = ref(db, '/messages/' + this.id);
-                    remove(messRef);
+                const messRef = ref(db, '/messages/' + this.id);
+                remove(messRef);
             })
             // Event listener for message editing by clicking on it (for own message)
             messageEl.addEventListener('click', (e) => {
@@ -65,17 +65,19 @@ class Message {
     }
 
     // Function for editing own message
-    private editMessage(messEl):void{
-        messEl.setAttribute("contenteditable", true);
+    private editMessage(messEl:HTMLParagraphElement):void{
+        // messEl.setAttribute("contenteditable", true);
+        messEl.contentEditable = "true";
         messEl.className = 'mess-edit';
         messEl.focus();
         const newMessage:HTMLParagraphElement = document.querySelector('.mess-edit');
 
         // Event listener for finishing message editing by pushing enter-key
-        messEl.addEventListener('keydown', (event) => {
-            if (event.keyCode === 13 || event.code === "Enter") {
+        messEl.addEventListener('keydown', (event:KeyboardEvent) => {
+            if (event.code === "Enter") {
                 event.preventDefault();
-                messEl.setAttribute('contenteditable', false);
+                // messEl.setAttribute('contenteditable', false);
+                messEl.contentEditable = "false";
                 this.message = newMessage.innerText;
                 // Update message in database
                 const messRef = ref(db, '/messages/' + this.id);
@@ -83,6 +85,12 @@ class Message {
                 updates['/message'] = this.message;
                 update(messRef, updates);
                 messEl.classList.remove('mess-edit');
+            }
+            else if (event.code === "Escape") {
+                event.preventDefault();
+                messEl.contentEditable = "false";
+                messEl.classList.remove('mess-edit');
+                fetchAllData();
             }
         });
     }
