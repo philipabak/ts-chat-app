@@ -17,7 +17,7 @@ You can also edit or delete your own message from chat and database.
 
 ## :pushpin: _GUI example_
 
+![Chat app 2 ex](/img/chatapp2.png)
 
-
-
+![Chat app 1 ex](/img/chatapp1.png)
 
